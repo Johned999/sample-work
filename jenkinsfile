@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker Image Remotely') {
+            steps {
+                sshagent(['your-ssh-credentials']) {
+                    // Connect to the remote EC2 server
+                    script {
+                        def remoteHost = '35.179.94.244'
+                        def remoteUser = 'John9e9d9@GoogleMail.com'
+                        def remoteDir = '/home/ubuntu/docker-samples'
+
+                        // Run the Docker build command remotely
+                        sshCommand remoteUser: remoteUser, remoteHost: remoteHost, command: "cd ${remoteDir} && docker build -t your-image-name ."
+                    }
+                }
+            }
+        }
+    }
+}
